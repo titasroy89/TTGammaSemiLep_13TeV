@@ -84,6 +84,7 @@ private :
 	Float_t         _pfMETPhi;
 	Float_t         _WtransMass;
 	Float_t 	_DilepMass;
+	Float_t         _DilepGMass
 	Float_t         _DilepDelR;
 	Int_t           _nPho;
 	std::vector<float>   _phoEt;
@@ -250,6 +251,7 @@ void makeAnalysisNtuple::InitBranches(){
 	outputTree->Branch("pfMETPhi"                   , &_pfMETPhi                    ); 
 	outputTree->Branch("WtransMass"                 , &_WtransMass                  ); 
    	outputTree->Branch("DilepMass"                  , &_DilepMass 			);
+	outputTree->Branch("DilepGMass"                  , &_DilepGMass                   );
 	outputTree->Branch("DilepDelR"                  , &_DilepDelR                   );
 	outputTree->Branch("nPho"                       , &_nPho                        ); 
 	outputTree->Branch("phoEt"                      , &_phoEt                       );
@@ -371,6 +373,7 @@ void makeAnalysisNtuple::InitVariables()
 	_pfMETPhi	     = -9999;
 	_WtransMass      = -9999;
 	_DilepMass	 = -9999;
+        _DilepGMass       = -9999;
 	_DilepDelR	 = -9999;
 	_nPho		     = -9999;
 	_nEle		     = -9999;

@@ -55,10 +55,10 @@ mcList = {'TTGamma': [kOrange],
           'ZGamma': [kBlue-2],
           'WJets': [kCyan-3],
           'ZJets': [kCyan-5],
-          'QCDMu': [kGreen+3],
+          #'QCDMu': [kGreen+3],
           }
 
-_file = TFile("histograms/mu/testBtaghists.root","read")
+_file = TFile("histograms_dilep/dimu/testBtaghists.root","read")
 
 samples = ['TTGamma',	  
            'TTbar',	  
@@ -67,8 +67,7 @@ samples = ['TTGamma',
            'ZJets',	  
            'WJets',
            'SingleTop', 
-           'TTV',	  
-           'QCDMu',	  
+           'TTV',	  	  
            'DataMu',	  
            ]
 
@@ -76,16 +75,20 @@ samples = ['TTGamma',
 histograms = []
 
 for s in samples:    
-    histograms.append(TH1F("jbMult_%s"%s,"jbMult_%s"%s,10,0,10))
-
+    histograms.append(TH1F("jbMult_%s"%s,"jbMult_%s"%s,15,0,15))
+    h0 = _file.Get("%s/phoselnjets0Tag_%s"%(s,s))
     h1 = _file.Get("%s/phoselnjets1Tag_%s"%(s,s))
     h2 = _file.Get("%s/phoselnjets2Tag_%s"%(s,s))
+    print s, h0.GetBinContent(3)
+   # print "%s/phoselnjets0Tag_%s"%(s,s)
+    h0.Draw()
     for i in range(4):
-        histograms[-1].SetBinContent(i+1,h1.GetBinContent(3+i))
-        histograms[-1].SetBinContent(i+6,h2.GetBinContent(3+i))
-
-        histograms[-1].SetBinContent(5 ,h1.Integral(7,-1))
-        histograms[-1].SetBinContent(10,h1.Integral(7,-1))
+	histograms[-1].SetBinContent(i+1,h0.GetBinContent(3+i))
+        histograms[-1].SetBinContent(i+6,h1.GetBinContent(3+i))
+        histograms[-1].SetBinContent(i+11,h2.GetBinContent(3+i))
+    histograms[-1].SetBinContent(5 ,h0.Integral(7,-1))
+    histograms[-1].SetBinContent(10,h1.Integral(7,-1))
+    histograms[-1].SetBinContent(15,h2.Integral(7,-1))
 
     if not "DataMu" in s:
         histograms[-1].SetFillColor(mcList[s][0])
@@ -96,17 +99,21 @@ for s in samples:
         histograms[-1].SetMarkerSize(h1.GetMarkerSize())
         histograms[-1].SetMarkerStyle(20)
         histograms[-1].SetMarkerColor(kBlack)
-
-    histograms[-1].GetXaxis().SetBinLabel(1,"=2j=1b")
-    histograms[-1].GetXaxis().SetBinLabel(2,"=3j=1b")
-    histograms[-1].GetXaxis().SetBinLabel(3,"=4j=1b")
-    histograms[-1].GetXaxis().SetBinLabel(4,"=5j=1b")
-    histograms[-1].GetXaxis().SetBinLabel(5,"#geq6j=1b")
-    histograms[-1].GetXaxis().SetBinLabel(6,"=2j#geq2b")
-    histograms[-1].GetXaxis().SetBinLabel(7,"=3j#geq2b")
-    histograms[-1].GetXaxis().SetBinLabel(8,"=4j#geq2b")
-    histograms[-1].GetXaxis().SetBinLabel(9,"=5j#geq2b")
-    histograms[-1].GetXaxis().SetBinLabel(10,"#geq6j#geq2b")
+    histograms[-1].GetXaxis().SetBinLabel(1,"=2j=0b")
+    histograms[-1].GetXaxis().SetBinLabel(2,"=3j=0b")
+    histograms[-1].GetXaxis().SetBinLabel(3,"=4j=0b")
+    histograms[-1].GetXaxis().SetBinLabel(4,"=5j=0b")
+    histograms[-1].GetXaxis().SetBinLabel(5,"#geq6j=0b")
+    histograms[-1].GetXaxis().SetBinLabel(6,"=2j=1b")
+    histograms[-1].GetXaxis().SetBinLabel(7,"=3j=1b")
+    histograms[-1].GetXaxis().SetBinLabel(8,"=4j=1b")
+    histograms[-1].GetXaxis().SetBinLabel(9,"=5j=1b")
+    histograms[-1].GetXaxis().SetBinLabel(10,"#geq6j=1b")
+    histograms[-1].GetXaxis().SetBinLabel(11,"=2j#geq2b")
+    histograms[-1].GetXaxis().SetBinLabel(12,"=3j#geq2b")
+    histograms[-1].GetXaxis().SetBinLabel(13,"=4j#geq2b")
+    histograms[-1].GetXaxis().SetBinLabel(14,"=5j#geq2b")
+    histograms[-1].GetXaxis().SetBinLabel(15,"#geq6j#geq2b")
     histograms[-1].GetXaxis().SetLabelSize(0.04)
 
 legendHeightPer = 0.04
@@ -137,12 +144,12 @@ legend.AddEntry(histograms[4],'Z+jets'         ,'f')
 legend.AddEntry(histograms[5],'W+jets'         ,'f')
 legend.AddEntry(histograms[6],'Single t'       ,'f')
 legend.AddEntry(histograms[7],'t#bar{t}+V'     ,'f')
-legend.AddEntry(histograms[8],'Multijet'       ,'f')
+#legend.AddEntry(histograms[8],'Multijet'       ,'f')
 
 
 stack = THStack()
 
-stack.Add(histograms[8])
+#stack.Add(histograms[8])
 stack.Add(histograms[7])
 stack.Add(histograms[6])
 stack.Add(histograms[5])
@@ -164,5 +171,6 @@ CMS_lumi.writeChannelText = True
 CMS_lumi.writeExtraText = True
 CMS_lumi.CMS_lumi(canvas, 4, 11)
 legend.Draw()
-
-canvas.SaveAs("JetBjetMult_Phosel.pdf")
+#canvas.SetLogy()
+canvas.SaveAs("JetBjetMult_Phosel_nolog.pdf")
+canvas.SaveAs("JetBjetMult_Phosel_nolog.png")

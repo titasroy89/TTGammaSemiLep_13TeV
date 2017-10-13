@@ -332,10 +332,13 @@ void makeAnalysisNtuple::FillEvent()
 	if (dileptonsample){
 		if (_nMu==2) {
 //		std::cout<<"doing muons"<<std::endl;
-
+		int phoInd = evtPick->Photons.at(0);
 		int muInd1 = evtPick->Muons.at(0);
 		int muInd2 = evtPick->Muons.at(1);
-
+		phoVector.SetPtEtaPhiM(tree->phoEt_->at(phoInd),
+                                                           tree->phoEta_->at(phoInd),
+                                                           tree->phoPhi_->at(phoInd),
+                                                           0.0);
 		lepVector.SetPtEtaPhiE(tree->muPt_->at(muInd1),
                                                            tree->muEta_->at(muInd1),
                                                            tree->muPhi_->at(muInd1),
@@ -345,7 +348,9 @@ void makeAnalysisNtuple::FillEvent()
                                                            tree->muPhi_->at(muInd2),
                                                            tree->muEn_->at(muInd2));	
 		_DilepMass = (lepVector+lepVector2).M();
+		_DilepGMass = (lepVector+lepVector2+phoVector).M();
 		_DilepDelR = lepVector.DeltaR(lepVector2);
+
 		
 		}
 		
@@ -354,6 +359,11 @@ void makeAnalysisNtuple::FillEvent()
 //		std::cout<<"doing electrons"<<std::endl;
 		int eleInd1 = evtPick->Electrons.at(0);
                 int eleInd2 = evtPick->Electrons.at(1);
+		int phoInd = evtPick->Photons.at(0);
+		phoVector.SetPtEtaPhiM(tree->phoEt_->at(phoInd),
+                                                           tree->phoEta_->at(phoInd),
+                                                           tree->phoPhi_->at(phoInd),
+                                                           0.0);
 
 		lepVector.SetPtEtaPhiE(tree->elePt_->at(eleInd1),
                                                            tree->eleEta_->at(eleInd1),
@@ -367,7 +377,7 @@ void makeAnalysisNtuple::FillEvent()
 		_DilepMass = (lepVector+lepVector2).M();
 
 		_DilepDelR = lepVector.DeltaR(lepVector2);
- 
+ 		_DilepGMass = (lepVector+lepVector2+phoVector).M();
 		}
 	}
 	
