@@ -79,21 +79,15 @@ if [ "$jobType" == "elescale" ] ;	then
 	tupleExtraName1="elescale"
 	systematic=true
 fi
-if [ "$jobType" == "musmear" ] ;	then
-	channel="ele"
-	channelDir="electrons"
-	tupleExtraName1="musmear"
-	systematic=true
-fi
 
 
 
 
 inputdir="root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_skims/${channelDir}/V08_00_26_07/"
-outputdir="root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples/${channelDir}/V08_00_26_07/."
+outputdir="root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_new/${channelDir}/V08_00_26_07/."
 
 if [ "$systematic" = true ] ; then
-	outputdir="root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples/systematics_electrons/V08_00_26_07/."
+	outputdir="root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_new/systematics_electrons/V08_00_26_07/."
 fi
 
 sampleType=("TTGamma_SingleLeptFromTbar" \
@@ -104,24 +98,16 @@ sampleType=("TTGamma_SingleLeptFromTbar" \
 "TTbarPowheg2" \
 "TTbarPowheg3" \
 "TTbarPowheg4" \
-"TTbarMadgraph_SingleLeptFromT" \
-"TTbarMadgraph_SingleLeptFromTbar" \
-"TTbarMadgraph_Dilepton" \
 "TGJets" \
-"TTGJets" \
-"TTbarMadgraph" \
-"WjetsInclusive1" \
-"WjetsInclusive2" \
-"WjetsInclusive3" \
-"WjetsInclusive4" \
-"WjetsInclusive5" \
-"WjetsInclusive6" \
 "W1jets" \
 "W2jets" \
 "W3jets" \
 "W4jets" \
 "DYjetsM10to50" \
 "DYjetsM50" \
+"DYjetsM10to50_MLM" \
+"DYjetsM50_MLM" \
+"DYjetsM50_MLM_ext2" \
 "ST_s-channel" \
 "ST_t-channel" \
 "ST_tbar-channel" \
@@ -130,8 +116,8 @@ sampleType=("TTGamma_SingleLeptFromTbar" \
 "TTWtoQQ" \
 "TTWtoLNu" \
 "TTZtoLL" \
-"WGamma" \
-"ZGamma" \
+"ZGamma_01J_5f" \
+"WGamma_01J_5f" \
 "WW" \
 "WZ" \
 "ZZ" \
@@ -146,7 +132,7 @@ sampleType=("TTGamma_SingleLeptFromTbar" \
 "GJets_HT-100To200" \
 "GJets_HT-200To400" \
 "GJets_HT-400To600" \
-"GJets_HT-600ToInf" \
+"GJets_HT-600ToInf" 
 "Data_SingleEle_b" \
 "Data_SingleEle_c" \
 "Data_SingleEle_d" \
@@ -162,6 +148,11 @@ if [ "$systematic" = false ] ; then
 
 	echo "xrdcp -f ${tupleExtraName1}${sampleType[job]}_AnalysisNtuple.root ${outputdir}"
 	xrdcp -f ${tupleExtraName1}${sampleType[job]}_AnalysisNtuple.root ${outputdir}
+
+	echo "AnalysisNtuple/makeAnalysisNtuple ${sampleType[job]}__QCDcr . ${inputdir}${sampleType[job]}_skim.root"
+        AnalysisNtuple/makeAnalysisNtuple ${sampleType[job]}__QCDcr . ${inputdir}${sampleType[job]}_skim.root
+	echo "xrdcp -f QCDcr_${sampleType[job]}_AnalysisNtuple.root ${outputdir}AnalysisNtuples/qcdelectrons/V08_00_26_07/"
+	xrdcp -f QCDcr_${sampleType[job]}_AnalysisNtuple.root ${outputdir}AnalysisNtuples/qcdelectrons/V08_00_26_07/
 fi
 
 if [ "$systematic" = true ] ; then
@@ -210,6 +201,16 @@ if [ "$systematic" = true ] ; then
 				"JECPileUpPtBB" \
 				"JECPileUpPtEC1")
 		fi
+		if [ "$jobType" == "JEC6" ] ;   then
+                        jecList=("JECSubTotalPileUp" \
+                                "JECSubTotalRelative" \
+                                "JECSubTotalPt")
+                fi
+		if [ "$jobType" == "JEC7" ] ; then
+                        jecList=("JECSubTotalScale" \
+                                  "JECSubTotalAbsolute" \
+                                  "JECSubTotalMC")
+                fi
 
 		for tupleExtraName1 in "${jecList[@]}"
 		do :

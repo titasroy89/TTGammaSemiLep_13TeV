@@ -12,15 +12,8 @@ Requirements          = (OpSys == "LINUX" && (Arch != "DUMMY"))
 #use_x509userproxy = true
 x509userproxy = $ENV(X509_USER_PROXY)
 # important, number of instances (jobs) of script
-Arguments = "$(process) mu"
+
+Arguments = "$(process)+0 ele"
 Queue 12
-
-Arguments = "$(process) ele"
+Arguments = "$(process)-12 mu"
 Queue 12
-
-
-###This is an example of how to start at a certain point, 
-###it starts with job 24 (QCD samples in this case) and goes from there
-#Arguments = "11+$(process)"
-#Queue 1
-
