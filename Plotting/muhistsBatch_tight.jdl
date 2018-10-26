@@ -1,0 +1,23 @@
+universe = vanilla
+Executable = runHists_mu_syst_tight.sh
+
+should_transfer_files = YES
+WhenTOTransferOutput  = ON_EXIT
+notification = never
+
+Output = condor/muHist_$(cluster)_$(process).stdout
+Error  = condor/muHist_$(cluster)_$(process).stderr
+Log    = condor/muHist_$(cluster)_$(process).condor
+Requirements          = (OpSys == "LINUX" && (Arch != "DUMMY"))
+#Arguments = $(process)
+#use_x509userproxy = true
+x509userproxy = $ENV(X509_USER_PROXY)
+
+# important, number of instances (jobs) o
+
+Arguments = $(process)
+Queue 13
+
+
+
+

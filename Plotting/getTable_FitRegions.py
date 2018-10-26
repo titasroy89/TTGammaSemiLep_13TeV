@@ -71,10 +71,9 @@ for sample in list_:
 	_file = TFile("%s/%s.root"%(_fileDir,sample),"read")
 	hist=_file.Get("phosel_PhotonCategory_%s"%(sample))	
 	for i in range(1,5):
-                err = Double(0.0)
-                err_[sample].append(err)            
+                err = Double(0.0)           
         	yield_[sample].append(float(hist.IntegralAndError(i,i,err)))
-
+		err_[sample].append(err)
 
 for i in range(4):
 	yield_['SingleTop'][i] += yield_['TGJets'][i]

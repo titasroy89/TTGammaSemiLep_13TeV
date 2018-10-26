@@ -15,8 +15,9 @@ parser.add_option("--Loose","--loose", dest="isLooseSelection", default=False,ac
 parser.add_option("--LooseCRe2g1","--looseCRe2g1", dest="isLooseCRe2g1Selection",default=False,action="store_true",
                   help="Use ==2j at least 1t control region selection")
 parser.add_option("--LooseCR3g0","--looseCR3g0", dest="isLooseCR3g0Selection",default=False,action="store_true",
-                  help="Use >=2j at least 1t control region selection")
-
+                  help="Use >=3j and 0btag control region selection")
+parser.add_option("--LooseCRe3g0","--looseCRe3g0", dest="isLooseCRe3g0Selection",default=False,action="store_true",
+                  help="Use ==3j,0bta control region selection")
 parser.add_option("--LooseCRe3g1","--looseCRe3g1", dest="isLooseCRe3g1Selection",default=False,action="store_true",
                   help="Use 3j exactly 0t control region selection" )
 
@@ -32,6 +33,7 @@ isLooseSelection = options.isLooseSelection
 isLooseCR3g0Selection=options.isLooseCR3g0Selection
 isLooseCRe2g1Selection = options.isLooseCRe2g1Selection
 isLooseCRe3g1Selection = options.isLooseCRe3g1Selection
+isLooseCRe3g0Selection =options.isLooseCRe3g0Selection
 #_fileDir = options.fileDir
 if finalState=="Mu":
 	_fileDir="histograms/mu/qcdhistsCR"
@@ -53,6 +55,8 @@ elif finalState=="Ele":
 	if isLooseCRe2g1Selection:
                 _fileDir ="histograms/ele/qcdhistsCR_looseCRe2g1/"
 	elif isLooseCR3g0Selection:
+                _fileDir ="histograms/ele/qcdhistsCR_looseCR3g0/"
+	elif isLooseCRe3g0Selection:
                 _fileDir ="histograms/ele/qcdhistsCR_looseCRe3g0/"
         elif isLooseCRe3g1Selection:
                 _fileDir ="histograms/ele/qcdhistsCR_looseCRe3g1/"

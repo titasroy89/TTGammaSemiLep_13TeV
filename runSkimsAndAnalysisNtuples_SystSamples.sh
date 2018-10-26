@@ -43,20 +43,24 @@ DannyEOS="root://cmseos.fnal.gov//store/user/dnoonan/13TeV_ggNTuples/V08_00_26_0
 GGNtupleGroupEOSMC="root://cmseos.fnal.gov//store/user/lpcggntuples/ggNtuples/13TeV/mc/V08_00_26_07/"
 TitasEOS="root://cmseos.fnal.gov//store/user/troy2012/13TeV_ggNTuples/V08_00_26_07/"
 GGNtupleGroupEOSData="root://cmseos.fnal.gov//store/user/lpcggntuples/ggNtuples/13TeV/data/V08_00_26_07/"
-LPCtop="root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_ggNTuples/V08_00_26_07/"
-
+LPCtop="root://cmseos.fnal.gov//store/user/lpctop/13TeV_ggNTuples/V08_00_26_07/"
+LPC="root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_ggNTuples/V08_00_26_07/"
 inputfiles=($LPCtop"TTGamma_Dilept_TuneCUETP8M2T4_13TeV-madgraph-fsrdown-pythia8.root" \
-$LPCtop"TTGamma_Dilept_TuneCUETP8M2T4_13TeV-madgraph-fsrup-pythia8.root" \
-$LPCtop"TTGamma_Dilept_TuneCUETP8M2T4_13TeV-madgraph-isrdown-pythia8.root" \
-$LPCtop"TTGamma_Dilept_TuneCUETP8M2T4_13TeV-madgraph-isrup-pythia8.root" \
-$LPCtop"TTGamma_SingleLeptFromT_TuneCUETP8M2T4_13TeV-amcatnlo-fsrdown-pythia8-pythia8.root" \
-$LPCtop"TTGamma_SingleLeptFromT_TuneCUETP8M2T4_13TeV-amcatnlo-fsrup-pythia8-pythia8.root" \
-$LPCtop"TTGamma_SingleLeptFromT_TuneCUETP8M2T4_13TeV-amcatnlo-isrdown-pythia8-pythia8.root" \
-$LPCtop"TTGamma_SingleLeptFromT_TuneCUETP8M2T4_13TeV-amcatnlo-isrup-pythia8-pythia8.root" \
-$LPCtop"TTGamma_SingleLeptFromTbar_TuneCUETP8M2T4_13TeV-amcatnlo-fsrdown-pythia8-pythia8.root" \
-$LPCtop"TTGamma_SingleLeptFromTbar_TuneCUETP8M2T4_13TeV-amcatnlo-fsrup-pythia8-pythia8.root" \
-$LPCtop"TTGamma_SingleLeptFromTbar_TuneCUETP8M2T4_13TeV-amcatnlo-isrdown-pythia8-pythia8.root" \
-$LPCtop"TTGamma_SingleLeptFromTbar_TuneCUETP8M2T4_13TeV-amcatnlo-isrup-pythia8-pythia8.root")
+$LPC"TTGamma_Dilept_TuneCUETP8M2T4_13TeV-madgraph-fsrup-pythia8.root" \
+$LPC"TTGamma_Dilept_TuneCUETP8M2T4_13TeV-madgraph-isrdown-pythia8.root" \
+$LPC"TTGamma_Dilept_TuneCUETP8M2T4_13TeV-madgraph-isrup-pythia8.root" \
+$LPC"TTGamma_SingleLeptFromT_TuneCUETP8M2T4_13TeV-amcatnlo-fsrdown-pythia8-pythia8.root" \
+$LPC"TTGamma_SingleLeptFromT_TuneCUETP8M2T4_13TeV-amcatnlo-fsrup-pythia8-pythia8.root" \
+$LPC"TTGamma_SingleLeptFromT_TuneCUETP8M2T4_13TeV-amcatnlo-isrdown-pythia8-pythia8.root" \
+$LPC"TTGamma_SingleLeptFromT_TuneCUETP8M2T4_13TeV-amcatnlo-isrup-pythia8-pythia8.root" \
+$LPC"TTGamma_SingleLeptFromTbar_TuneCUETP8M2T4_13TeV-amcatnlo-fsrdown-pythia8-pythia8.root" \
+$LPC"TTGamma_SingleLeptFromTbar_TuneCUETP8M2T4_13TeV-amcatnlo-fsrup-pythia8-pythia8.root" \
+$LPC"TTGamma_SingleLeptFromTbar_TuneCUETP8M2T4_13TeV-amcatnlo-isrdown-pythia8-pythia8.root" \
+$LPC"TTGamma_SingleLeptFromTbar_TuneCUETP8M2T4_13TeV-amcatnlo-isrup-pythia8-pythia8.root" \
+$LPCtop"TT_TuneCUETP8M2T4_13TeV-powheg-isrup-pythia8.root" \
+$LPCtop"TT_TuneCUETP8M2T4_13TeV-powheg-isrdown-pythia8.root" \
+$LPCtop"TT_TuneCUETP8M2T4_13TeV-powheg-fsrup-pythia8.root" \
+$LPCtop"TT_TuneCUETP8M2T4_13TeV-powheg-fsrdown-pythia8.root")
 
 
 sampleType=("TTGamma_Dilepton_fsrDown" \
@@ -70,20 +74,41 @@ sampleType=("TTGamma_Dilepton_fsrDown" \
 "TTGamma_SingleLeptFromTbar_fsrDown" \
 "TTGamma_SingleLeptFromTbar_fsrUp" \
 "TTGamma_SingleLeptFromTbar_isrDown" \
-"TTGamma_SingleLeptFromTbar_isrUp")
+"TTGamma_SingleLeptFromTbar_isrUp" \
+"TTbarPowheg_isrUp" \
+"TTbarPowheg_isrDown" \
+"TTbarPowheg_fsrUp" \
+"TTbarPowheg_fsrDown")
+
+sampleOutput=("fsr_down_TTGamma_Dilepton" \
+"fsr_up_TTGamma_Dilepton" \
+"isr_down_TTGamma_Dilepton" \
+"isr_up_TTGamma_Dilepton" \
+"fsr_down_TTGamma_SingleLeptFromT" \
+"fsr_up_TTGamma_SingleLeptFromT" \
+"isr_down_TTGamma_SingleLeptFromT" \
+"isr_up_TTGamma_SingleLeptFromT" \
+"fsr_down_TTGamma_SingleLeptFromTbar" \
+"fsr_up_TTGamma_SingleLeptFromTbar" \
+"isr_down_TTGamma_SingleLeptFromTbar" \
+"isr_up_TTGamma_SingleLeptFromTbar" \
+"isr_up_TTbarPowheg" \
+"isr_down_TTbarPowheg" \
+"fsr_up_TTbarPowheg" \
+"fsr_down_TTbarPowheg")
 
 
 echo "AnalysisNtuple/makeSkim ${channel} ${sampleType[job]}_skim.root ${inputfiles[job]}"
 AnalysisNtuple/makeSkim ${channel} ${sampleType[job]}_skim.root ${inputfiles[job]}
 
-echo "AnalysisNtuple/makeAnalysisNtuple ${sampleType[job]}${tupleExtraName2} . ${sampleType[job]}_skim.root"
-AnalysisNtuple/makeAnalysisNtuple ${sampleType[job]}${tupleExtraName2} . ${sampleType[job]}_skim.root
+echo "AnalysisNtuple/makeAnalysisNtuple ${sampleOutput[job]} . ${sampleType[job]}_skim.root"
+AnalysisNtuple/makeAnalysisNtuple ${sampleOutput[job]} . ${sampleType[job]}_skim.root
 
 
 echo "xrdcp -f ${sampleType[job]}_skim.root ${outputdir}skims/${channelDir}/V08_00_26_07/"
 xrdcp -f ${sampleType[job]}_skim.root ${outputdir}skims/${channelDir}/V08_00_26_07/
 
-echo "xrdcp -f ${tupleExtraName1}${sampleType[job]}_AnalysisNtuple.root ${outputdir}AnalysisNtuples/${channelDir}/V08_00_26_07/"
-xrdcp -f ${tupleExtraName1}${sampleType[job]}_AnalysisNtuple.root ${outputdir}AnalysisNtuples/${channelDir}/V08_00_26_07/
+echo "xrdcp -f ${sampleOutput[job]}_AnalysisNtuple.root ${outputdir}AnalysisNtuples_new/systematics_${channelDir}/V08_00_26_07/"
+xrdcp -f ${sampleOutput[job]}_AnalysisNtuple.root ${outputdir}AnalysisNtuples_new/systematics_${channelDir}/V08_00_26_07/
 
 

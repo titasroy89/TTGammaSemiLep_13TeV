@@ -25,13 +25,15 @@ parser.add_option("--LooseCRe2g1","--looseCRe2g1", dest="isLooseCRe2g1Selection"
                   help="Use exactly 2j >= 1t control region selection" )
 parser.add_option("--LooseCR3g0","--looseCR3g0", dest="isLooseCR3g0Selection",default=False,action="store_true",
 		  help="Use >=3j and 0btag control region selection" )
+parser.add_option("--LooseCRe3g0","--looseCRe3g0", dest="isLooseCRe3g0Selection",default=False,action="store_true",
+                  help="Use ==3j and 0btag control region selection")
 parser.add_option("--LooseCR2g1","--looseCR2g1", dest="isLooseCR2g1Selection",default=False,action="store_true",
                   help="Use 2j at least 1t control region selection")
 parser.add_option("--LooseCRe3g1","--looseCRe3g1", dest="isLooseCRe3g1Selection",default=False,action="store_true",
 		  help="Use exactly 3j >= 1t control region selection" )
 parser.add_option("--addPlots","--addOnly", dest="onlyAddPlots", default=False,action="store_true",
                      help="Use only if you want to add a couple of plots to the file, does not remove other plots" )
-parser.add_option("--output", dest="outputFileName", default="hists",
+parser.add_option("--output", dest="outputFileName", default="hists_new",
                      help="Give the name of the root file for histograms to be saved in (default is hists.root)" )
 parser.add_option("--plot", dest="plotList",action="append",
                      help="Add plots" )
@@ -89,6 +91,7 @@ isTightSelection0b = options.isTightSelection0b
 isLooseCR2e1Selection = options.isLooseCR2e1Selection
 isLooseCRe2g1Selection = options.isLooseCRe2g1Selection
 isLooseCR3g0Selection=options.isLooseCR3g0Selection
+isLooseCRe3g0Selection=options.isLooseCRe3g0Selection
 isLooseCRe2g1Selection = options.isLooseCRe2g1Selection
 isLooseCRe3g1Selection = options.isLooseCRe3g1Selection
 onlyAddPlots = options.onlyAddPlots
@@ -111,8 +114,8 @@ if FwdJets:
 
 nJets = 3
 nBJets = 1
-if testoneplot:
-	outputFileName="hist_new"
+#if testoneplot:
+#	outputFileName="hist_new"
 
 isQCD = False
 dir_=""
@@ -149,7 +152,7 @@ if finalState=="Mu":
         sample = "DataMu"
     if sample=="QCD":
         sample = "QCDMu"
-    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples/muons/V08_00_26_07/"
+    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_new/muons/V08_00_26_07/"
     outputhistName = "histograms/mu/%s"%outputFileName
     if runsystematic:
 
@@ -228,10 +231,10 @@ if finalState=="Mu":
 
 	else:
 		if  level=="up":
-            		analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples/systematics_muons/V08_00_26_07/%s_up_"%(syst)
+            		analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_new/systematics_muons/V08_00_26_07/%s_up_"%(syst)
             		outputhistName = "histograms/mu/%s%s_up"%(outputFileName,syst)
         	if level=="down":
-            		analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples/systematics_muons/V08_00_26_07/%s_down_"%(syst)
+            		analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_new/systematics_muons/V08_00_26_07/%s_down_"%(syst)
             		outputhistName = "histograms/mu/%s%s_down"%(outputFileName,syst)
 
 
@@ -260,9 +263,12 @@ if finalState=="Mu":
     extraCutsLooseCRe3g1       = "(passPresel_Mu && nJet==3 && nBJet>=1)*"
     extraPhotonCutsLooseCRe3g1 = "(passPresel_Mu && nJet==3 && nBJet>=1 && %s)*"
 
+    extraCutsLooseCR3g0       = "(passPresel_Mu && nJet>=3 && nBJet==0)*"
+    extraPhotonCutsLooseCR3g0 = "(passPresel_Mu && nJet>=3 && nBJet==0 && %s)*"
 
-    extraCutsLooseCRe3g0       = "(passPresel_Mu && nJet>=3 && nBJet==0)*"
-    extraPhotonCutsLooseCRe3g0 = "(passPresel_Mu && nJet>=3 && nBJet==0 && %s)*"
+
+    extraCutsLooseCRe3g0       = "(passPresel_Mu && nJet==3 && nBJet==0)*"
+    extraPhotonCutsLooseCRe3g0 = "(passPresel_Mu && nJet==3 && nBJet==0 && %s)*"
 
 elif finalState=="Ele":
     sampleList[-1] = "DataEle"
@@ -271,7 +277,7 @@ elif finalState=="Ele":
         sample = "DataEle"
     if sample=="QCD":
         sample = "QCDEle"
-    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples/electrons/V08_00_26_07/"
+    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_new/electrons/V08_00_26_07/"
     outputhistName = "histograms/ele/%s"%outputFileName
     if runsystematic:
 	 if 'PU' in syst:
@@ -350,11 +356,11 @@ elif finalState=="Ele":
 
 	 else:                     
         	if  level=="up":
-            		analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples/systematics_electrons/V08_00_26_07/%s_up_"%(syst)
+            		analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_new/systematics_electrons/V08_00_26_07/%s_up_"%(syst)
 			
             		outputhistName = "histograms/ele/%s%s_up"%(outputFileName,syst)
         	if level=="down":
-            		analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples/systematics_electrons/V08_00_26_07/%s_down_"%(syst)
+            		analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_new/systematics_electrons/V08_00_26_07/%s_down_"%(syst)
             		outputhistName = "histograms/ele/%s%s_down"%(outputFileName,syst)
 		
 
@@ -388,8 +394,11 @@ elif finalState=="Ele":
     extraPhotonCutsLooseCRe3g1 = "(passPresel_Ele && nJet==3 && nBJet>=1 && %s)*"
 
     
-    extraCutsLooseCRe3g0       = "(passPresel_Ele && nJet>=3 && nBJet==0)*"
-    extraPhotonCutsLooseCRe3g0 = "(passPresel_Ele && nJet>=3 && nBJet==0 && %s)*"
+    extraCutsLooseCR3g0       = "(passPresel_Ele && nJet>=3 && nBJet==0)*"
+    extraPhotonCutsLooseCR3g0 = "(passPresel_Ele && nJet>=3 && nBJet==0 && %s)*"
+
+    extraCutsLooseCRe3g0       = "(passPresel_Ele && nJet==3 && nBJet==0)*"
+    extraPhotonCutsLooseCRe3g0 = "(passPresel_Ele && nJet==3 && nBJet==0 && %s)*"
 
 elif finalState=="DiMu":
     sampleList[-1] = "DataMu"
@@ -399,7 +408,7 @@ elif finalState=="DiMu":
         sample = "DataMu"
     if sample=="QCD":
         sample = "QCDMu"
-    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples/dimuons/V08_00_26_07/Dilep_"
+    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_new/dimuons/V08_00_26_07/Dilep_"
     outputhistName = "histograms/mu/dilep%s"%outputFileName
 
     extraCuts            = "(passPresel_Mu && nJet>=3 && nBJet>=1)*"
@@ -431,8 +440,11 @@ elif finalState=="DiMu":
     extraPhotonCutsLooseCRe3g1 = "(passPresel_Mu && nJet==3 && nBJet>=1 && %s)*"
 
 
-    extraCutsLooseCRe3g0       = "(passPresel_Mu && nJet>=3 && nBJet==0)*"
-    extraPhotonCutsLooseCRe3g0 = "(passPresel_Mu && nJet>=3 && nBJet==0 && %s)*"
+    extraCutsLooseCR3g0       = "(passPresel_Mu && nJet>=3 && nBJet==0)*"
+    extraPhotonCutsLooseCR3g0 = "(passPresel_Mu && nJet>=3 && nBJet==0 && %s)*"
+
+    extraCutsLooseCRe3g0       = "(passPresel_Mu && nJet==3 && nBJet==0)*"
+    extraPhotonCutsLooseCRe3g0 = "(passPresel_Mu && nJet==3 && nBJet==0 && %s)*"
 
 elif finalState=="DiEle":
     sampleList[-1] = "DataEle"
@@ -441,7 +453,7 @@ elif finalState=="DiEle":
         sample = "DataEle"
     if sample=="QCD":
         sample = "QCDEle"
-    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples/dielectrons/V08_00_26_07/Dilep_"
+    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_new/dielectrons/V08_00_26_07/Dilep_"
     outputhistName = "histograms/ele/dilep%s"%outputFileName
 
     extraCuts            = "(passPresel_Ele && nJet>=3 && nBJet>=1)*"
@@ -466,8 +478,11 @@ elif finalState=="DiEle":
     extraPhotonCutsLooseCRe3g1 = "(passPresel_Ele && nJet==3 && nBJet>=1 && %s)*"
 
 
-    extraCutsLooseCRe3g0       = "(passPresel_Ele && nJet>=3 && nBJet==0)*"
-    extraPhotonCutsLooseCRe3g0 = "(passPresel_Ele && nJet>=3 && nBJet==0 && %s)*"
+    extraCutsLooseCR3g0       = "(passPresel_Ele && nJet>=3 && nBJet==0)*"
+    extraPhotonCutsLooseCR3g0 = "(passPresel_Ele && nJet>=3 && nBJet==0 && %s)*"
+
+    extraCutsLooseCRe3g0       = "(passPresel_Ele && nJet==3 && nBJet==0)*"
+    extraPhotonCutsLooseCRe3g0 = "(passPresel_Ele && nJet==3 && nBJet==0 && %s)*"
 
 elif finalState=="QCDMu":
     sampleList[-1] = "DataMu"
@@ -479,7 +494,7 @@ elif finalState=="QCDMu":
 
     isQCD = True
 
-    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples/qcdmuons/V08_00_26_07/QCDcr_"
+    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_new/qcdmuons/V08_00_26_07/QCDcr_"
     outputhistName = "histograms/mu/qcd%sCR"%(outputFileName)
 
     nBJets = 0
@@ -511,8 +526,11 @@ elif finalState=="QCDMu":
     extraCutsLooseCRe3g1       = "(passPresel_Mu && muPFRelIso<0.3 && nJet==3 && nBJet==0)*"
     extraPhotonCutsLooseCRe3g1 = "(passPresel_Mu && muPFRelIso<0.3 && nJet==3 && nBJet==0 && %s)*"
 
-    extraCutsLooseCRe3g0       = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=3 && nBJet==0)*"
-    extraPhotonCutsLooseCRe3g0 = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=3 && nBJet==0 && %s)*"
+    extraCutsLooseCR3g0       = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=3 && nBJet==0)*"
+    extraPhotonCutsLooseCR3g0 = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=3 && nBJet==0 && %s)*"
+
+    extraCutsLooseCRe3g0       = "(passPresel_Mu && muPFRelIso<0.3 && nJet==3 && nBJet==0)*"
+    extraPhotonCutsLooseCRe3g0 = "(passPresel_Mu && muPFRelIso<0.3 && nJet==3 && nBJet==0 && %s)*"
 
 
 elif finalState=="QCDMu2":
@@ -525,7 +543,7 @@ elif finalState=="QCDMu2":
 
     isQCD = True
 
-    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples/qcdmuons/V08_00_26_07/QCDcr_"
+    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_new/qcdmuons/V08_00_26_07/QCDcr_"
     outputhistName = "histograms/mu/qcd%sCR2"%(outputFileName)
 
     nBJets = 0
@@ -552,7 +570,7 @@ elif finalState=="QCDEle":
         sample = "DataEle"
     if sample=="QCD":
         sample = "QCDEle"
-    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples/qcdelectrons/V08_00_26_07/QCDcr_"
+    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_new/qcdelectrons/V08_00_26_07/QCDcr_"
     outputhistName = "histograms/ele/qcd%sCR"%(outputFileName)
     print outputhistName
 
@@ -588,8 +606,11 @@ elif finalState=="QCDEle":
     extraCutsLooseCRe3g1       = "(passPresel_Ele && elePFRelIso>0.01 && nJet==3 && nBJet==0)*"
     extraPhotonCutsLooseCRe3g1 = "(passPresel_Ele && elePFRelIso>0.01 && nJet==3 && nBJet==0 && %s)*"
 
-    extraCutsLooseCRe3g0       = "(passPresel_Ele && elePFRelIso>0.01 && nJet>=3 && nBJet==0)*"
-    extraPhotonCutsLooseCRe3g0 = "(passPresel_Ele && elePFRelIso>0.01 && nJet>=3 && nBJet==0 && %s)*"
+    extraCutsLooseCR3g0       = "(passPresel_Ele && elePFRelIso>0.01 && nJet>=3 && nBJet==0)*"
+    extraPhotonCutsLooseCR3g0 = "(passPresel_Ele && elePFRelIso>0.01 && nJet>=3 && nBJet==0 && %s)*"
+
+    extraCutsLooseCRe3g0       = "(passPresel_Ele && elePFRelIso>0.01 && nJet==3 && nBJet==0)*"
+    extraPhotonCutsLooseCRe3g0 = "(passPresel_Ele && elePFRelIso>0.01 && nJet==3 && nBJet==0 && %s)*"
 
 else:
     print "Unknown final state, options are Mu and Ele"
@@ -667,12 +688,22 @@ if isLooseCR3g0Selection:
     btagWeight = "btagWeight[0]" 
     if 'QCD' in finalState:
        	btagWeight="1"
+    extraCuts = extraCutsLooseCR3g0
+    extraPhotonCuts = extraPhotonCutsLooseCR3g0
+    outputhistName = outputhistName + "_looseCR3g0"
+    dir_="_looseCR3g0"
+
+if isLooseCRe3g0Selection:
+    if not runQuiet: print "Loose Control Region for EGamma"
+    nJets = 3
+    nBJets = 0
+    btagWeight = "btagWeight[0]"
+    if 'QCD' in finalState:
+        btagWeight="1"
     extraCuts = extraCutsLooseCRe3g0
     extraPhotonCuts = extraPhotonCutsLooseCRe3g0
     outputhistName = outputhistName + "_looseCRe3g0"
     dir_="_looseCRe3g0"
-
-
 
 
 if isLooseCRe3g1Selection:
@@ -710,7 +741,7 @@ if plotList is None:
     elif makeJetsplots:
 	plotList = ["presel_jet2Pt","presel_jet3Pt", "presel_jet4Pt"]
     elif makeMorePlots:
-        plotList = ["presel_Njet","phosel_SIEIE_barrel","phosel_SIEIE_GenuinePhoton_barrel","phosel_SIEIE_MisIDEle_barrel","phosel_SIEIE_NonPrompt_barrel","phosel_R9_barrel","phosel_elePt_barrel","phosel_elePt_GenuinePhoton_barrel","phosel_elePt_MisIDEle_barrel","phosel_elePt_NonPrompt_barrel","presel_elePt","phosel_muPt_barrel","phosel_muPt_GenuinePhoton_barrel","phosel_muPt_MisIDEle_barrel","phosel_muPt_NonPrompt_barrel","presel_muPt","phosel_eleSCEta_barrel","phosel_eleSCEta_GenuinePhoton_barrel","phosel_eleSCEta_MisIDEle_barrel","phosel_eleSCEta_NonPrompt_barrel","presel_eleSCEta","phosel_muEta_barrel","phosel_muEta_GenuinePhoton_barrel","phosel_muEta_MisIDEle_barrel","phosel_muEta_NonPrompt_barrel","presel_muEta","phosel_PhotonCategory_barrel","phosel_Njet_barrel","phosel_Njet_GenuinePhoton_barrel","phosel_Njet_MisIDEle_barrel","phosel_Njet_NonPrompt_barrel","presel_jet1Pt","phosel_jet1Pt_barrel","phosel_jet1Pt_GenuinePhoton_barrel","phosel_jet1Pt_MisIDEle_barrel","phosel_jet1Pt_NonPrompt_barrel","phosel_LeadingPhotonEt_barrel","phosel_LeadingPhotonEt_GenuinePhoton_barrel","phosel_LeadingPhotonEt_MisIDEle_barrel","phosel_LeadingPhotonEt_NonPrompt_barrel","phosel_LeadingPhotonEta_barrel","presel_M3_control","phosel_noCut_ChIso_barrel","phosel_noCut_SIEIE_barrel","phosel_noCut_SIEIE_GenuinePhoton_barrel","phosel_noCut_SIEIE_MisIDEle_barrel","phosel_noCut_SIEIE_NonPrompt_barrel","presel_nVtx","phosel_nVtx_barrel","presel_nVtxdo","presel_nVtxup","phosel_nVtxdo_barrel","phosel_nVtxup_barrel","presel_nVtxNoPU","phosel_nVtxNoPU_barrel","phosel_ChIso_barrel","phosel_ChIso_GenuinePhoton_barrel","phosel_ChIso_MisIDEle_barrel","phosel_ChIso_NonPrompt_barrel","phosel_NeuIso_barrel","phosel_NeuIso_GenuinePhoton_barrel","phosel_NeuIso_MisIDEle_barrel","phosel_NeuIso_NonPrompt_barrel","phosel_PhoIso_barrel","phosel_PhoIso_GenuinePhoton_barrel","phosel_PhoIso_MisIDEle_barrel","phosel_PhoIso_NonPrompt_barrel","phosel_HoverE_barrel","phosel_Nphotons_barrel","phosel_Nphotons_GenuinePhoton_barrel","phosel_Nphotons_MisIDEle_barrel","phosel_Nphotons_NonPrompt_barrel","phosel_LeadingPhotonSCEta_barrel", "phosel_LeadingPhotonSCEta_GenuinePhoton_barrel","phosel_LeadingPhotonSCEta_MisIDEle_barrel","phosel_LeadingPhotonSCEta_NonPrompt_barrel","phosel_noCut_SIEIE_noChIso_barrel","phosel_noCut_SIEIE_noChIso_GenuinePhoton_barrel","phosel_noCut_SIEIE_noChIso_MisIDEle_barrel","phosel_noCut_SIEIE_noChIso_NonPrompt_barrel","presel_HT","phosel_HT_barrel","phosel_HT_GenuinePhoton_barrel","phosel_HT_MisIDEle_barrel","phosel_HT_NonPrompt_barrel","presel_M3","phosel_noCut_ChIso_GenuinePhoton_barrel","phosel_noCut_ChIso_MisIDEle_barrel","phosel_noCut_ChIso_HadronicPhoton_barrel","phosel_noCut_ChIso_HadronicFake_barrel","phosel_M3","phosel_M3_barrel","phosel_M3_GenuinePhoton_barrel","phosel_M3_MisIDEle_barrel","phosel_M3_HadronicPhoton_barrel","phosel_M3_HadronicFake_barrel","phosel_M3_NonPrompt_barrel","phosel_AntiSIEIE_ChIso","phosel_AntiSIEIE_ChIso_barrel","phosel_AntiSIEIE_ChIso_GenuinePhoton_barrel","phosel_AntiSIEIE_ChIso_HadronicPhoton_barrel","phosel_AntiSIEIE_ChIso_HadronicFake_barrel","phosel_AntiSIEIE_ChIso_MisIDEle_barrel","phosel_MassEGamma","phosel_MassEGammaMisIDEle","phosel_MassEGammaOthers","phosel_MassEGamma_barrel","phosel_MassEGamma_NonPrompt_barrel","phosel_MassEGamma_GenuinePhoton_barrel","phosel_MassEGamma_MisIDEle_barrel","phosel_MassEGammaOthers_barrel", "phosel_LeadingPhotonabsSCEta_barrel", "phosel_LeadingPhotonabsSCEta_GenuinePhoton_barrel","phosel_LeadingPhotonabsSCEta_MisIDEle_barrel","phosel_LeadingPhotonabsSCEta_NonPrompt_barrel", "phosel_dRLeadingPhotonLepton_GenuinePhoton_barrel", "phosel_dRLeadingPhotonLepton_MisIDEle_barrel", "phosel_dRLeadingPhotonLepton_NonPrompt_barrel", "phosel_dRLeadingPhotonLepton_barrel","phosel_dRLeadingPhotonJet_GenuinePhoton_barrel", "phosel_dRLeadingPhotonJet_MisIDEle_barrel", "phosel_dRLeadingPhotonJet_NonPrompt_barrel", "phosel_dRLeadingPhotonJet_barrel"]
+        plotList = ["presel_Njet","phosel_SIEIE_barrel","phosel_SIEIE_GenuinePhoton_barrel","phosel_SIEIE_MisIDEle_barrel","phosel_SIEIE_NonPrompt_barrel","phosel_R9_barrel","phosel_elePt_barrel","phosel_elePt_GenuinePhoton_barrel","phosel_elePt_MisIDEle_barrel","phosel_elePt_NonPrompt_barrel","presel_elePt","phosel_muPt_barrel","phosel_muPt_GenuinePhoton_barrel","phosel_muPt_MisIDEle_barrel","phosel_muPt_NonPrompt_barrel","presel_muPt","phosel_eleSCEta_barrel","phosel_eleSCEta_GenuinePhoton_barrel","phosel_eleSCEta_MisIDEle_barrel","phosel_eleSCEta_NonPrompt_barrel","presel_eleSCEta","phosel_muEta_barrel","phosel_muEta_GenuinePhoton_barrel","phosel_muEta_MisIDEle_barrel","phosel_muEta_NonPrompt_barrel","presel_muEta","phosel_PhotonCategory_barrel","phosel_Njet_barrel","phosel_Njet_GenuinePhoton_barrel","phosel_Njet_MisIDEle_barrel","phosel_Njet_NonPrompt_barrel","phosel_Nbjet_barrel","phosel_Nbjet_GenuinePhoton_barrel","phosel_Nbjet_MisIDEle_barrel","phosel_Nbjet_NonPrompt_barrel","presel_jet1Pt","phosel_jet1Pt_barrel","phosel_jet1Pt_GenuinePhoton_barrel","phosel_jet1Pt_MisIDEle_barrel","phosel_jet1Pt_NonPrompt_barrel","phosel_LeadingPhotonEt_barrel","phosel_LeadingPhotonEt_GenuinePhoton_barrel","phosel_LeadingPhotonEt_MisIDEle_barrel","phosel_LeadingPhotonEt_NonPrompt_barrel","phosel_LeadingPhotonEta_barrel","presel_M3_control","phosel_noCut_ChIso_barrel","phosel_noCut_SIEIE_barrel","phosel_noCut_SIEIE_GenuinePhoton_barrel","phosel_noCut_SIEIE_MisIDEle_barrel","phosel_noCut_SIEIE_NonPrompt_barrel","presel_nVtx","phosel_nVtx_barrel","presel_nVtxdo","presel_nVtxup","phosel_nVtxdo_barrel","phosel_nVtxup_barrel","presel_nVtxNoPU","phosel_nVtxNoPU_barrel","phosel_ChIso_barrel","phosel_ChIso_GenuinePhoton_barrel","phosel_ChIso_MisIDEle_barrel","phosel_ChIso_NonPrompt_barrel","phosel_NeuIso_barrel","phosel_NeuIso_GenuinePhoton_barrel","phosel_NeuIso_MisIDEle_barrel","phosel_NeuIso_NonPrompt_barrel","phosel_PhoIso_barrel","phosel_PhoIso_GenuinePhoton_barrel","phosel_PhoIso_MisIDEle_barrel","phosel_PhoIso_NonPrompt_barrel","phosel_HoverE_barrel","phosel_Nphotons_barrel","phosel_Nphotons_GenuinePhoton_barrel","phosel_Nphotons_MisIDEle_barrel","phosel_Nphotons_NonPrompt_barrel","phosel_LeadingPhotonSCEta_barrel", "phosel_LeadingPhotonSCEta_GenuinePhoton_barrel","phosel_LeadingPhotonSCEta_MisIDEle_barrel","phosel_LeadingPhotonSCEta_NonPrompt_barrel","phosel_noCut_SIEIE_noChIso_barrel","phosel_noCut_SIEIE_noChIso_GenuinePhoton_barrel","phosel_noCut_SIEIE_noChIso_MisIDEle_barrel","phosel_noCut_SIEIE_noChIso_NonPrompt_barrel","presel_HT","phosel_HT_barrel","phosel_HT_GenuinePhoton_barrel","phosel_HT_MisIDEle_barrel","phosel_HT_NonPrompt_barrel","presel_M3","phosel_noCut_ChIso_GenuinePhoton_barrel","phosel_noCut_ChIso_MisIDEle_barrel","phosel_noCut_ChIso_HadronicPhoton_barrel","phosel_noCut_ChIso_HadronicFake_barrel","phosel_M3","phosel_M3_barrel","phosel_M3_GenuinePhoton_barrel","phosel_M3_MisIDEle_barrel","phosel_M3_HadronicPhoton_barrel","phosel_M3_HadronicFake_barrel","phosel_M3_NonPrompt_barrel","phosel_AntiSIEIE_ChIso","phosel_AntiSIEIE_ChIso_barrel","phosel_AntiSIEIE_ChIso_GenuinePhoton_barrel","phosel_AntiSIEIE_ChIso_HadronicPhoton_barrel","phosel_AntiSIEIE_ChIso_HadronicFake_barrel","phosel_AntiSIEIE_ChIso_MisIDEle_barrel","phosel_MassEGamma","phosel_MassEGammaMisIDEle","phosel_MassEGammaOthers","phosel_MassEGamma_barrel","phosel_MassEGamma_NonPrompt_barrel","phosel_MassEGamma_GenuinePhoton_barrel","phosel_MassEGamma_MisIDEle_barrel","phosel_MassEGammaOthers_barrel", "phosel_LeadingPhotonabsSCEta_barrel", "phosel_LeadingPhotonabsSCEta_GenuinePhoton_barrel","phosel_LeadingPhotonabsSCEta_MisIDEle_barrel","phosel_LeadingPhotonabsSCEta_NonPrompt_barrel", "phosel_dRLeadingPhotonLepton_GenuinePhoton_barrel", "phosel_dRLeadingPhotonLepton_MisIDEle_barrel", "phosel_dRLeadingPhotonLepton_NonPrompt_barrel", "phosel_dRLeadingPhotonLepton_barrel","phosel_dRLeadingPhotonJet_GenuinePhoton_barrel", "phosel_dRLeadingPhotonJet_MisIDEle_barrel", "phosel_dRLeadingPhotonJet_NonPrompt_barrel", "phosel_dRLeadingPhotonJet_barrel"]
         if not runQuiet: print "Making subset of kinematic plots"
     elif makeEGammaPlots:
         plotList = ["phosel_MassEGamma","phosel_MassEGammaMisIDEle","phosel_MassEGammaOthers","phosel_MassEGamma_barrel","phosel_MassEGamma_MisIDEle_barrel","phosel_MassEGammaOthers_barrel"]

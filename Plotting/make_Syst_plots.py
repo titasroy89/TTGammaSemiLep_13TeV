@@ -1,4 +1,4 @@
-from ROOT import TFile, TPad, gROOT, gStyle, TCanvas, SetOwnership, TLegend, kBlack, kRed, kBlue, TF1
+from ROOT import TFile, TPad, gROOT, gStyle, TCanvas, SetOwnership, TLegend, kBlack, kRed, kBlue, TF1,TH1F
 import math
 import os
 import sys
@@ -16,13 +16,21 @@ parser.add_option("-c", "--channel", dest="channel", default="mu",type='str',
                   help="Specify which channel mu or ele? default is mu" )
 parser.add_option("--Tight","--tight", dest="isTightSelection", default=False,action="store_true",
                      help="Use 4j2t selection" )
+parser.add_option("--bins","--bins", dest="isbinsCR", default=False,action="store_true",
+                     help="Use Fit regions" )
+
 
 (options, args) = parser.parse_args()
 
 TightSelection = options.isTightSelection
+isbinsCR = options.isbinsCR
 
-
-
+if TightSelection:
+	dir_="_tight"
+elif isbinsCR:
+	dir_="_binned"
+else:
+	dir_=""
 finalState = options.channel
 thestyle = Style()
 
@@ -40,16 +48,20 @@ process_signal = {"TTGamma_Prompt":["t#bar{t}+#gamma Prompt"],
 		  "TTbar_NonPrompt": ["t#bar{t} Nonprompt"],
 		  "VGamma_Prompt":["V+#gamma Prompt"],
 		  "VGamma_NonPrompt":["V+#gamma Nonprompt"],
-		  "VJets_Prompt":["V+jets Prompt"],
-		  "VJets_NonPrompt":["V+jets Nonprompt"],
+#		  "SingleTop_Prompt":["SingleTop Prompt"],
+ #                 "SingleTop_NonPrompt":["SingleTop Nonprompt"],
+#		  "VJets_Prompt":["V+jets Prompt"],
+#		  "VJets_NonPrompt":["V+jets Nonprompt"],
 		  "Other_Prompt":["Other Prompt"],
 		  "Other_NonPrompt":["Other Nonprompt"],
 		  "Other":["Other"],
-		  "VJets":["V+jets"],
+#		  "SingleTop":["SingleTop"],
+#		  "VJets":["V+jets"],
 		  "VGamma":["V+#gamma"],
+		 # "ZGamma":["Z+#gamma"],
 		  "TTbar":["t#bar{t}"],
 		  "TTGamma":["t#bar{t}+#gamma"],
-		  "TTbar_DD":["t#bar{t} DataDriven"],
+		  #"TTbar_DD":["t#bar{t} DataDriven"],
 		  }
 
 import CMS_lumi
@@ -66,6 +78,13 @@ observe_={"M3":["M3 GeV"],
 	"ChHad":["Photon Charge Hadron Isolation (GeV)"],
 	"M3_control":["M3 (GeV)"],
 	}
+if isbinsCR:
+	observe_={"M3":["M3 GeV"],
+        "ChHad":["Photon Charge Hadron Isolation (GeV)"],
+        "M3_control":["Events in 0 photon CR"],
+	"Njet":["Events in 0 btag CR"],
+	}
+
 
 c1 = TCanvas('c1','c1',W,H)
 c1.SetFillColor(0)
@@ -79,7 +98,6 @@ c1.SetBottomMargin( B/H )
 c1.SetTickx(0)
 c1.cd()
 c1.ResetDrawn()
-
 c2 = TCanvas('c2','c2',W,H)
 c2.SetFillColor(0)
 c2.SetBorderMode(0)
@@ -93,9 +111,6 @@ c2.SetTickx(0)
 c2.SetTicky(0)
 c2.Draw()
 c2.cd()
-
-
-
 padRatio = 0.25
 padOverlap = 0.15
 
@@ -134,15 +149,15 @@ SetOwnership(pad1,False)
 SetOwnership(pad2,False)
 
 if finalState=="ele":
-	_file = TFile("Combine_withDDTemplateData_v2_ele.root","read")
+	_file = TFile("Combine_withDDTemplateData_v6_ele_binned.root","read")
         if TightSelection :
-		_file = TFile("Combine_withDDTemplate_v2_ele_tight.root","read")
+		_file = TFile("Combine_withDDTemplateData_v6_ele_tight_binned_PDF.root","read")
 else:
-	_file = TFile("Combine_withDDTemplateData_v2_mu.root","read")
+	_file = TFile("Combine_withDDTemplateData_v6_mu_binned.root","read")
 	if TightSelection :
-                _file = TFile("Combine_withDDTemplate_v2_mu_tight.root","read")
-MC_signal = ["TTbar_Prompt","TTbar_NonPrompt","TTGamma_Prompt","TTGamma_NonPrompt","VGamma_Prompt","VGamma_NonPrompt","VJets_Prompt","VJets_NonPrompt","Other_Prompt","Other_NonPrompt"]
-MC_control =["TTGamma","TTbar","VGamma","VJets","Other"]
+                _file = TFile("Combine_withDDTemplateData_v6_mu_tight_binned_PDF.root","read")
+MC_signal = ["TTbar_Prompt","TTbar_NonPrompt","TTGamma_Prompt","TTGamma_NonPrompt","VGamma_Prompt","VGamma_NonPrompt","Other_Prompt","Other_NonPrompt"]
+MC_control=["TTGamma","TTbar","VGamma","Other"]
 
 process = MC_signal
 if finalState=="mu":
@@ -152,19 +167,14 @@ if finalState=="mu":
 		       "BTagSF"  :["BTag SF"],
 		       "Q2"     :["Q2"],
 		       "Pdf"    :["PDF"],
+		       "Pdfsignal":["PDF"],
 		       "PU" :["Pileup"],
 		       "MuEff"  :["Muon Eff"],
 		       "PhoEff" :["Photon Eff"],
 		       "JECTotal": ["JEC Total"],
-		       "JECSubTotalRelative" :["JEC Relative SubTotal"],
-                       "JECSubTotalScale" : ["JEC Scale SubTotal"],
-                       "JECSubTotalPt" :["JEC Pt SubTotal"],
-                       "JECSubTotalPileUp" : ["JEC PileUp SubTotal"], 
-                       "JECSubTotalMC" : ["JEC MC SubTotal"],
-                       "JECSubTotalAbsolute" : ["JEC Absolute SubTotal"],   	
 		       "isr":["ISR"],
 		       "fsr":["FSR"],
-		       "shapeDD":["Shape unc"],
+		       "MisIDEleshape": ["MisID Ele"],
 		       }
 	_channelText = "#mu+jets"
 
@@ -177,22 +187,18 @@ else:
 		       "BTagSF"  :["BTag SF"],
 		       "Q2"     :["Q2"],
 		       "Pdf"    :["PDF"],
+		       "Pdfsignal"    :["PDF"],
 		       "PU" :["Pileup"],
 		       "EleEff" :["Electron Eff"],
 		       "PhoEff" :["Photon Eff"],
 		       "JECTotal": ["JEC Total"],
-		       "JECSubTotalRelative" :["JEC Relative SubTotal"],
-                       "JECSubTotalScale" : ["JEC Scale SubTotal"],
-                       "JECSubTotalPt" :["JEC Pt SubTotal"],
-                       "JECSubTotalPileUp" : ["JEC PileUp SubTotal"],
-                       "JECSubTotalMC" : ["JEC MC SubTotal"],
-                       "JECSubTotalAbsolute" : ["JEC Absolute SubTotal"],
 		       "isr":["ISR"],
 		       "fsr":["FSR"],
-		       "shapeDD":["Shape unc"],
+		       "MisIDEleshape": ["MisID Ele"],
 		       }
 	_channelText = "e+jets"
 
+#systematics={"PU":["Pileup"],}
 CMS_lumi.channelText = _channelText
 CMS_lumi.writeChannelText = True
 CMS_lumi.writeExtraText = True
@@ -210,9 +216,16 @@ legend.SetFillStyle(0);
 oneline = TF1("oneline","1",0,9e9)
 oneline.SetLineColor(kBlack)
 oneline.SetLineStyle(2)
+
+
+#errorband.SetLineColor(kBlack)
+#errorband.SetLineStyle(2)
+#errorband.SetFillStyle(3245)
+print _file
+print observe_
 for o in observe_:
-	
-	if o=="M3_control":
+        if o=="CR1" or o=="CR2" or o=="CR_0photon":continue	
+	if o=="M3_control" or o=="CR_0photon":
 		process = MC_control
 	else:
 		process = MC_signal
@@ -220,44 +233,49 @@ for o in observe_:
 		
 	for p in process:
 		if finalState=="mu" and "VJets_Prompt" in p:continue
-		# print _file
-		# print "%s/%s/nominal"%(o,p)		
+		
 		if o=="ChHad" and "NonPrompt" in p:
-			systematics_use=["shapeDD"]
+			systematics_use={"shapeDD":["Shape unc"]}
 		else:
 			systematics_use=systematics
-		#if "TTbar_DD" in p and "ChHad" not in o:continue
-		print  _file, "%s/%s/nominal"%(o,p)
+	
+		
                 nominal = _file.Get("%s/%s/nominal"%(o,p))
-	#	if "M3" in o:
-		nominal.Scale(1.,"width")
+		
+		if "M3" in o or "ChHad" in o:
+			nominal.Scale(1.,"width")
 		nominal.SetLineColor(kBlack)
 		nominal.SetLineWidth(2)
 		nominal.SetMarkerColor(kBlack)
                 
 		for sys in systematics_use:
+#			
 			c1.Draw()
 			c1.cd()
-			if sys in ["isr","fsr","Q2","Pdf"] :
-				print sys, p
+			if sys in ["isr","fsr","Q2"]:
 				
 				if p not in ["TTbar_Prompt","TTGamma_Prompt","TTbar_NonPrompt","TTGamma_NonPrompt","TTbar","TTGamma"] :continue
-					
+                        if sys=="Pdf":
+				if p not in ["TTbar_Prompt","TTbar_NonPrompt","TTbar"]:continue
+                        if sys=="Pdfsignal" :
+                                #print o, p
+				if p not in ["TTGamma_Prompt","TTGamma_NonPrompt","TTGamma"]:continue
+		        	
+			if sys=="MisIDEleshape" and ("_Prompt" not in p):continue
+			
+			if o=="Njet" and sys=="BTagSF":continue		
 				
-			if sys=="shapeDD" and "M3" in o: continue
+			if sys=="shapeDD" and ("M3" in o or "CR" in o): continue
 			if sys=="shapeDD" and o=="ChHad" and "NonPrompt" not in p:continue
 			
-			
-
+		#	print o,sys,p, _file		
+			#if sys=="Pdfsignal":
+			print "%s/%s/%sUp"%(o,p,sys)	
 			up =  _file.Get("%s/%s/%sUp"%(o,p,sys))
 			do =  _file.Get("%s/%s/%sDown"%(o,p,sys))
-			#if "M3" in o:
-				#print "%s/%s/%sUp"%(o,p,sys)
-				#print "%s/%s/%sDown"%(o,p,sys)
-			print "%s/%s/%sUp"%(o,p,sys)
-			up.Scale(1.,"width")
-			do.Scale(1.,"width")
-			print o,p,sys	
+			if "M3" in o or "ChHad" in o:
+				up.Scale(1.,"width")
+				do.Scale(1.,"width")
 			_max = max(up.GetMaximum(), do.GetMaximum(), nominal.GetMaximum())
 
 
@@ -271,13 +289,15 @@ for o in observe_:
 			_ratiomin = min(ratioUp.GetMinimum(),ratioDo.GetMinimum())
 #			_ratiomax=1.1
 #			_ratiomin=0.9			
-
-			up.SetMaximum(_max*1.4)
+			if o=="Njet":
+				up.GetYaxis().SetRangeUser(0.,_max+15.)
+			else:
+				up.SetMaximum(_max*1.4)
 
 			up.SetLineWidth(2)
 			up.SetLineColor(kRed)
 			up.SetMarkerColor(kRed)
-			up.Draw("hist")
+			up.Draw("E0,hist")
 			up.GetXaxis().SetTitle("%s"%(observe_[o][0]))
 			up.GetYaxis().SetTitle("#LT Events / GeV #GT")
 
@@ -285,34 +305,34 @@ for o in observe_:
                         do.SetLineWidth(2)
 			do.SetLineColor(kBlue)
 			do.SetMarkerColor(kBlue)
-			do.Draw("hist,same")
+			do.Draw("E0,hist,same")
 			nominal.Draw("E0,hist,same")		
-
+			
 			legend.Clear()
-
+                        errorband=nominal.Clone("errorband")
+			errorband.Sumw2()
+			for bin_ in range(1,nominal.GetNbinsX()+1):
+				errorband.SetBinError(bin_,nominal.GetBinError(bin_))
+			
+			errorband.SetFillColor(kBlack)
+			errorband.SetLineColor(kBlack)
+			errorband.SetLineStyle(2)
+			errorband.SetFillStyle(3245)
+			errorband.Draw("same,E2")
 			legend.SetHeader("%s"%(process_signal[p][0]))
-			legend.AddEntry(up,"%s"%(systematics[sys][0])+" "+"Up",'lp')
+			legend.AddEntry(up,"%s"%(systematics_use[sys][0])+" "+"Up",'lp')
 			legend.AddEntry(nominal,"Nominal",'lp')
-                        legend.AddEntry(do,"%s"%(systematics[sys][0])+" "+"Down",'lp')
+                        legend.AddEntry(do,"%s"%(systematics_use[sys][0])+" "+"Down",'lp')
 
         		legend.Draw("same")
   			CMS_lumi.channelText = _channelText      	
         		CMS_lumi.CMS_lumi(c1, 4, 11)
 
-#        		Quiet(c1.SaveAs)("Systematics_1/%s_%s_%s_%s.pdf"%(o,p,sys,finalState))
- #       		c1.Clear()
 
 			c2.cd()
 			c2.ResetDrawn()
 			c2.Draw()
 			c2.cd()
-#			if :
-#				c2.SetLogy(1)
-#			else:
-#3				c2.SetLogy(0)
-		#	if sys=="shapeDD":
-		#		print "it is!!"
-		#		c2.SetLogy()
 			pad1.Draw()
 			pad2.Draw()
 			
@@ -347,25 +367,28 @@ for o in observe_:
 
 			ratioUp.SetLineColor(kRed)
 			ratioDo.SetLineColor(kBlue)
-			if o=="ChHad":
-               #                 print "it is!!"
+			if o=="ChHad" or "CR" in o:
                                 pad1.SetLogy(1)
 			else:
 				pad1.SetLogy(0)
 				
-			up.Draw("hist")
-			do.Draw("hist,same")
+			up.Draw("E0,hist")
+			do.Draw("E0,hist,same")
 			nominal.Draw("E0,hist,same")
+			
+			#errorband.Draw("same,E2")
+			temp=nominal.Clone("temp")
 			legend.Draw("same")
-
+			for i in range(temp.GetNbinsX()):
+				temp.SetBinError(i+1,0.)
   			CMS_lumi.channelText = _channelText      	
         		CMS_lumi.CMS_lumi(c2, 4, 11)
 
 			pad2.cd()
-                        
+                    	errorband.Divide(temp)
 			ratioUp.Draw("hist")
 			ratioDo.Draw("hist,same")
 			oneline.Draw("same")
-			
+			#errorband.Draw("same")	
 				
-        		Quiet(c2.SaveAs)("Systematics_M3shape/%s_%s_%s_%s_ratio.pdf"%(o,p,sys,finalState))
+        		Quiet(c2.SaveAs)("Systematics_July/%s_%s_%s_%s%sratio.pdf"%(o,p,sys,finalState,dir_))

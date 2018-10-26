@@ -40,7 +40,8 @@ if finalState=='Ele':
 	channel = 'ele'
 
 
-_fileDir = "histograms/%s/hists/"%channel
+_fileDir = "histograms/%s/hists"%channel
+#_fileDir2=  "histograms/mu/hists_tight/"
 
 if isTightSelection:      _fileDir  = "histograms/%s/hists_tight/"%channel
 if isLooseCR2e0Selection: _fileDir  = "histograms/%s/hists_looseCR2e0/"%channel
@@ -69,10 +70,14 @@ for l in list_:
 	sum_s[l] = 0
 	err_s[l] = 0
 
+print _fileDir
+#exit()
 for sample in list_:
-	print sample, _fileDir, "phosel_PhotonCategory_barrel_%s"%(sample)
+#	print sample, _fileDir1, "phosel_PhotonCategory_barrel_%s"%(sample)
 	_file = TFile("%s/%s.root"%(_fileDir,sample),"read")
+#	_file2=TFile("%s/%s.root"%(_fileDir2,sample),"read")
 	hist=_file.Get("phosel_PhotonCategory_barrel_%s"%(sample))	
+#	hist.Add(_file2.Get("phosel_PhotonCategory_barrel_%s"%(sample)))  
 	for i in range(1,5):
                 err = Double(0.0)
 #                err_[sample].append(err)     
@@ -195,4 +200,23 @@ table += '\\end{tabular} \n'
 table = table.replace("$0.0 \pm 0.0$","---")
 
 print table
+
+table=''
+table +=  '\\begin{tabular}{l | c c c | r} \n'
+table +=  '\\hline\n'
+table +=  'Process & Genuine Photons & Misidentified Electrons & Nonprompt Photon  & Total \\\\ \n'
+table +=  '\\hline\n'
+for sample in list_:
+        table += '%s & $%.1f \pm %.1f$  & $%.1f \\pm %.1f$ & $%.1f \\pm %.1f$ & $%.1f \\pm %.1f$ & $%.1f \\pm %.1f$ & $%.1f\%%$   \\\\ \n' %(process_latexNames[sample], yield_[sample][0], err_[sample][0], yield_[sample][1], err_[sample][1], yield_[sample][2]+yield_[sample][3], ((err_[sample][2])**2+err_[sample][3]**2)**0.5, sum_s[sample], err_s[sample])
+
+table += '\\hline \n'
+table += "MC Totals & $%.1f \\pm %.1f$ & $%.1f \\pm %.1f$ & $%.1f \\pm %.1f$ & $%.1f \\pm %.1f$ & $%.1f \\pm %.1f$ &\\\\ \n" %(genuine_,genuine_error,misID_,misID_error,HadPho_,HadPho_error,HadFake_,HadFake_error, total_, error)
+table += "Data & --- & --- & --- & --- & $%.1f$ &\\\\ \n" %(data)
+table += '\\hline \n'
+table += "Percentage & $%.1f \\pm %.1f$ & $%.1f \\pm %.1f$ & $%.1f \\pm %.1f$ & $%.1f \\pm %.1f$ \\\\ \n" % (percentage[0], percentage_err[0],percentage[1], percentage_err[1], percentage[2], percentage_err[2],percentage[3], percentage_err[3])
+table += '\\end{tabular} \n'
+
+table = table.replace("$0.0 \pm 0.0$","---")
+
+
 
