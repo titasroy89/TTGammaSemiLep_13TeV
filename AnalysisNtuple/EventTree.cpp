@@ -2,6 +2,7 @@
 
 EventTree::EventTree(int nFiles, char** fileNames){
 	chain = new TChain("ggNtuplizer/EventTree");
+	chain->SetCacheSize(50*1024*1024);
 	for(int fileI=0; fileI<nFiles; fileI++){
 		chain->Add(fileNames[fileI]);
 	}
