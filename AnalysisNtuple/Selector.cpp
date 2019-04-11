@@ -298,10 +298,10 @@ void Selector::filter_electrons(){
 
 
 		// D0 and Dz cuts are different for barrel and endcap
-		bool passD0 = ((absEta < 1.479 && tree->eleD0_->at(eleInd) < 0.05) ||
-			       (absEta > 1.479 && tree->eleD0_->at(eleInd) < 0.1));
-		bool passDz = ((absEta < 1.479 && tree->eleDz_->at(eleInd) < 0.1) ||
-			       (absEta > 1.479 && tree->eleDz_->at(eleInd) < 0.2));
+		bool passD0 = ((absEta < 1.479 && TMath::Abs(tree->eleD0_->at(eleInd)) < 0.05) ||
+			       (absEta > 1.479 && TMath::Abs(tree->eleD0_->at(eleInd)) < 0.1));
+		bool passDz = ((absEta < 1.479 && TMath::Abs(tree->eleDz_->at(eleInd)) < 0.1) ||
+			       (absEta > 1.479 && TMath::Abs(tree->eleDz_->at(eleInd)) < 0.2));
 
 
 
