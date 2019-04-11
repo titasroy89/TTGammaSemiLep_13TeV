@@ -27,18 +27,30 @@ double totalTTbarMCatNLO          = 77227178.;
 
 double totalTTbarPowheg_GluonMoveCRTune_erdON = 56167431;
 double totalTTbarPowheg_GluonMoveCRTune = 57463420;
-double totalTTbarPowheg_QCDbasedCRTune_erdON = 59618551; //29982937;
+double totalTTbarPowheg_QCDbasedCRTune_erdON_ext0 = 29982937.;
+double totalTTbarPowheg_QCDbasedCRTune_erdON_ext1 = 29635614.;
 //double totalTTbarPowheg_QCDbasedCRTune = 29635614;
-double totalTTbarPowheg_erdON = 59870545;            //29942487;
-//double totalTTbarPowheg_erdON_ext1 = 29938058;
-double totalTTbarPowheg_TuneCUETP8M2T4down = 58336680;     //28353436;
-//double totalTTbarPowheg_TuneCUETP8M2T4down_ext1 = 29983244;
-double totalTTbarPowheg_TuneCUETP8M2T4up =  58952087;  //29309800;
-//double totalTTbarPowheg_TuneCUETP8M2T4up_ext1 = 29642287;
-double totalTTbarPowheg_hdampdown = 58162350;   //29116983;
-//double totalTTbarPowheg_hdampdown_ext1 =29045367;
-double totalTTbarPowheg_hdampup = 58856922;  //29688525;
-//double totalTTbarPowheg_hdampup_ext1 = 29168397;
+double totalTTbarPowheg_erdON_ext0 = 29942487.;
+double totalTTbarPowheg_erdON_ext1 = 29938058.;
+double totalTTbarPowheg_TuneCUETP8M2T4down_ext0 = 28353436.;
+double totalTTbarPowheg_TuneCUETP8M2T4down_ext1 = 29983244.;
+double totalTTbarPowheg_TuneCUETP8M2T4up_ext0 = 29309800.;
+double totalTTbarPowheg_TuneCUETP8M2T4up_ext1 = 29642287.;
+double totalTTbarPowheg_hdampdown_ext0 = 29116983.;
+double totalTTbarPowheg_hdampdown_ext1 = 29045367.;
+double totalTTbarPowheg_hdampup_ext0 = 29688525.;
+double totalTTbarPowheg_hdampup_ext1 = 29168397.;
+
+
+//lower stats systematics:
+
+
+double totalTTbarPowheg_TuneCUETP8M2T4down_lowstats = 28353436.;
+double totalTTbarPowheg_QCDbasedCRTune_erdON_lowstats = 29982937.;
+double totalTTbarPowheg_erdON_lowstats = 29942487.;
+double totalTTbarPowheg_TuneCUETP8M2T4up_lowstats = 29309800.;
+double totalTTbarPowheg_hdampdown_lowstats = 29116983.;
+double totalTTbarPowheg_hdampup_lowstats = 29688525.;
 
 
 double totalTTbarMadgraph_SingleLeptFromT     = 11956689.;
@@ -137,13 +149,13 @@ double TTGJets_xs               =  3.697; //https://twiki.cern.ch/twiki/bin/view
 
 double TGJets_xs                =  2.967;
 
-double TTGamma_hadronic_xs  =  3.482;   //4.599;
-double TTGamma_semilept_xs  =  5.017/2.;//4.499/2.;
-double TTGamma_dilept_xs    =  1.679;   //0.899;
+double TTGamma_hadronic_xs  =  2.045; //3.482;   //4.599;
+double TTGamma_semilept_xs  =  3.088/2.; //5.017/2.;//4.499/2.;
+double TTGamma_dilept_xs    =  1.026; //1.679;   //0.899;
 
-double alt_TTGamma_hadronic_xs  =  2.4315;   //4.599;
-double alt_TTGamma_semilept_xs  =  3.1201/2.;//4.499/2.;
-double alt_TTGamma_dilept_xs    =  0.9556;   //0.899;
+double alt_TTGamma_hadronic_xs  =   2.4315;   //4.599;
+double alt_TTGamma_semilept_xs  =   3.1201/2.;//4.499/2.;
+double alt_TTGamma_dilept_xs    =   0.9556;   //0.899;
 
 double WjetsInclusive_xs    = 61526.7; //https://twiki.cern.ch/twiki/bin/viewauth/CMS/SummaryTable1G25ns#W_jets
 
@@ -326,14 +338,24 @@ double alt_TTGamma_semilept_Tbar_isrUp_SF   = alt_TTGamma_semilept_xs * luminosi
 
 double TTbarPowheg_GluonMoveCRTune_erdON_SF = TTbar_xs * luminosity / totalTTbarPowheg_GluonMoveCRTune_erdON;
 double TTbarPowheg_GluonMoveCRTune_SF = TTbar_xs * luminosity / totalTTbarPowheg_GluonMoveCRTune; 
-double TTbarPowheg_QCDbasedCRTune_erdON_SF = TTbar_xs * luminosity / totalTTbarPowheg_QCDbasedCRTune_erdON;
-//double TTbarPowheg_QCDbasedCRTune_SF = TTbar_xs * luminosity / totalTTbarPowheg_QCDbasedCRTune;
-double TTbarPowheg_erdON_SF = TTbar_xs * luminosity / totalTTbarPowheg_erdON;
-//double TTbarPowheg_erdON_ext1 = 
-double TTbarPowheg_TuneCUETP8M2T4down_SF = TTbar_xs * luminosity / totalTTbarPowheg_TuneCUETP8M2T4down;
-double TTbarPowheg_TuneCUETP8M2T4up_SF = TTbar_xs * luminosity / totalTTbarPowheg_TuneCUETP8M2T4up;
-double TTbarPowheg_hdampdown_SF = TTbar_xs * luminosity / totalTTbarPowheg_hdampdown;;
-double TTbarPowheg_hdampup_SF = TTbar_xs * luminosity / totalTTbarPowheg_hdampup ;
+
+double TTbarPowheg_QCDbasedCRTune_erdON_ext0_SF = TTbar_xs * luminosity / totalTTbarPowheg_QCDbasedCRTune_erdON_ext0;
+double TTbarPowheg_QCDbasedCRTune_erdON_ext1_SF = TTbar_xs * luminosity / totalTTbarPowheg_QCDbasedCRTune_erdON_ext1;
+
+double TTbarPowheg_erdON_ext0_SF = TTbar_xs * luminosity / totalTTbarPowheg_erdON_ext0;
+double TTbarPowheg_erdON_ext1_SF = TTbar_xs * luminosity / totalTTbarPowheg_erdON_ext1;
+
+double TTbarPowheg_TuneCUETP8M2T4down_ext0_SF = TTbar_xs * luminosity / totalTTbarPowheg_TuneCUETP8M2T4down_ext0;
+double TTbarPowheg_TuneCUETP8M2T4down_ext1_SF = TTbar_xs * luminosity / totalTTbarPowheg_TuneCUETP8M2T4down_ext1;
+
+double TTbarPowheg_TuneCUETP8M2T4up_ext0_SF = TTbar_xs * luminosity / totalTTbarPowheg_TuneCUETP8M2T4up_ext0;
+double TTbarPowheg_TuneCUETP8M2T4up_ext1_SF = TTbar_xs * luminosity / totalTTbarPowheg_TuneCUETP8M2T4up_ext1;
+
+double TTbarPowheg_hdampdown_ext0_SF = TTbar_xs * luminosity / totalTTbarPowheg_hdampdown_ext0;
+double TTbarPowheg_hdampdown_ext1_SF = TTbar_xs * luminosity / totalTTbarPowheg_hdampdown_ext1;
+
+double TTbarPowheg_hdampup_ext0_SF = TTbar_xs * luminosity / totalTTbarPowheg_hdampup_ext0 ;
+double TTbarPowheg_hdampup_ext1_SF = TTbar_xs * luminosity / totalTTbarPowheg_hdampup_ext1 ;
 
 
 double TTbarPowheg_isrDown_SF = TTbar_xs * luminosity / totalTTbarPowheg_isrDown;
@@ -353,6 +375,7 @@ double getEvtWeight(string sampleType){
 	else if( sampleType=="TTGamma_SingleLeptFromT") {evtWeight = TTGamma_semilept_T_SF;}
 	else if( sampleType=="TTGamma_Dilepton") {evtWeight = TTGamma_dilept_SF;}
 	else if( sampleType=="TTbarPowheg") {evtWeight = TTbarPowheg_SF;}
+	else if( sampleType=="TTbarPowhegMark") {evtWeight = TTbarPowheg_SF;}
 	else if( sampleType=="TTbarPowheg1") {evtWeight = TTbarPowheg_SF;}
 	else if( sampleType=="TTbarPowheg2") {evtWeight = TTbarPowheg_SF;}
 	else if( sampleType=="TTbarPowheg3") {evtWeight = TTbarPowheg_SF;}
@@ -427,15 +450,23 @@ double getEvtWeight(string sampleType){
 	else if( sampleType=="fsr_up_TTGamma_SingleLeptFromTbar")   {evtWeight = TTGamma_semilept_Tbar_fsrUp_SF;}
 	else if( sampleType=="isr_down_TTGamma_SingleLeptFromTbar") {evtWeight = TTGamma_semilept_Tbar_isrDown_SF;}
 	else if( sampleType=="isr_up_TTGamma_SingleLeptFromTbar")   {evtWeight = TTGamma_semilept_Tbar_isrUp_SF;}
-	else if( sampleType =="GluonMoveCRTune_erdON_TTbarPowheg")  {evtWeight = TTbarPowheg_GluonMoveCRTune_erdON_SF;}
+	else if( sampleType =="GluonMoveCRTune_erdON_up_TTbarPowheg")  {evtWeight = TTbarPowheg_GluonMoveCRTune_erdON_SF;}
         else if( sampleType =="GluonMoveCRTune_TTbarPowheg")        {evtWeight = TTbarPowheg_GluonMoveCRTune_SF;}
-        else if( sampleType =="QCDbasedCRTune_erdON_TTbarPowheg")   {evtWeight = TTbarPowheg_QCDbasedCRTune_erdON_SF;}
+        else if( sampleType =="QCDbasedCRTune_erdON_up_ext0_TTbarPowheg")   {evtWeight = TTbarPowheg_QCDbasedCRTune_erdON_ext0_SF;}
+	else if( sampleType =="QCDbasedCRTune_erdON_up_ext1_TTbarPowheg")   {evtWeight = TTbarPowheg_QCDbasedCRTune_erdON_ext1_SF;}
+
         //else if( sampleType =="QCDbasedCRTune_TTbarPowheg")         {evtWeight = TTbarPowheg_QCDbasedCRTune_SF;}
-        else if( sampleType =="TuneCUETP8M2T4_erdON_TTbarPowheg" )  {evtWeight = TTbarPowheg_erdON_SF;}
-        else if( sampleType =="TuneCUETP8M2T4down_TTbarPowheg")     {evtWeight = TTbarPowheg_TuneCUETP8M2T4down_SF;}
-        else if( sampleType =="TuneCUETP8M2T4up_TTbarPowheg")       {evtWeight = TTbarPowheg_TuneCUETP8M2T4up_SF;}
-        else if( sampleType =="hdampDOWN_TTbarPowheg")              {evtWeight = TTbarPowheg_hdampdown_SF;}
-        else if( sampleType =="hdampUP_TTbarPowheg")                {evtWeight = TTbarPowheg_hdampup_SF;}
+        else if( sampleType =="TuneCUETP8M2T4_erdON_up_ext0_TTbarPowheg" )  {evtWeight = TTbarPowheg_erdON_ext0_SF;}
+	else if( sampleType =="TuneCUETP8M2T4_erdON_up_ext1_TTbarPowheg" )  {evtWeight = TTbarPowheg_erdON_ext1_SF;}
+        else if( sampleType =="Tune_down_ext0_TTbarPowheg")     {evtWeight = TTbarPowheg_TuneCUETP8M2T4down_ext0_SF;}
+	else if( sampleType =="Tune_down_ext1_TTbarPowheg")     {evtWeight = TTbarPowheg_TuneCUETP8M2T4down_ext1_SF;}
+        else if( sampleType =="Tune_up_ext0_TTbarPowheg")       {evtWeight = TTbarPowheg_TuneCUETP8M2T4up_ext0_SF;}
+	else if( sampleType =="Tune_up_ext1_TTbarPowheg")       {evtWeight = TTbarPowheg_TuneCUETP8M2T4up_ext1_SF;}
+        else if( sampleType =="hdamp_down_ext0_TTbarPowheg")              {evtWeight = TTbarPowheg_hdampdown_ext0_SF;}
+	else if( sampleType =="hdamp_down_ext1_TTbarPowheg")              {evtWeight = TTbarPowheg_hdampdown_ext1_SF;}
+	
+        else if( sampleType =="hdamp_up_ext0_TTbarPowheg")                {evtWeight = TTbarPowheg_hdampup_ext0_SF;}
+	else if( sampleType =="hdamp_up_ext1_TTbarPowheg")                {evtWeight = TTbarPowheg_hdampup_ext1_SF;}
 	else if( sampleType=="fsr_up_TTbarPowheg")                  {evtWeight=TTbarPowheg_fsrUp_SF;}
 	else if( sampleType=="fsr_down_TTbarPowheg")                {evtWeight=TTbarPowheg_fsrDown_SF;}
 	else if( sampleType=="isr_up_TTbarPowheg")                  {evtWeight=TTbarPowheg_isrUp_SF;}
@@ -484,7 +515,7 @@ double getEvtWeight(string sampleType){
 
 
 
-const std::string allowedSampleTypes[132] = {"Data",
+const std::string allowedSampleTypes[139] = {"Data",
 											"Data_SingleMu_b",
 											"Data_SingleMu_c",
 											"Data_SingleMu_d",
@@ -508,6 +539,7 @@ const std::string allowedSampleTypes[132] = {"Data",
                                                                                         "alt_TTGamma_SingleLeptFromT",
                                                                                         "alt_TTGamma_Dilepton",
 											"TTbarPowheg",
+											"TTbarPowhegMark",
 											"TTbarPowheg1",
 											"TTbarPowheg2",
 											"TTbarPowheg3",
@@ -600,14 +632,20 @@ const std::string allowedSampleTypes[132] = {"Data",
 											"isr_down_TTbarPowheg",
 											"fsr_up_TTbarPowheg",
 											"fsr_down_TTbarPowheg",
-											"GluonMoveCRTune_erdON_TTbarPowheg",
+											"GluonMoveCRTune_erdON_up_TTbarPowheg",
                                                                                         "GluonMoveCRTune_TTbarPowheg",
-											"QCDbasedCRTune_erdON_TTbarPowheg",
-											"TuneCUETP8M2T4_erdON_TTbarPowheg",
-											"TuneCUETP8M2T4down_TTbarPowheg",
-											"TuneCUETP8M2T4up_TTbarPowheg",
-											"hdampDOWN_TTbarPowheg",
-											"hdampUP_TTbarPowheg",
+											"QCDbasedCRTune_erdON_up_ext0_TTbarPowheg",
+											"QCDbasedCRTune_erdON_up_ext1_TTbarPowheg",
+											"TuneCUETP8M2T4_erdON_up_ext0_TTbarPowheg",
+											"TuneCUETP8M2T4_erdON_up_ext1_TTbarPowheg",
+											"Tune_down_ext0_TTbarPowheg",
+											"Tune_down_ext1_TTbarPowheg",
+											"Tune_up_ext0_TTbarPowheg",
+											"Tune_up_ext1_TTbarPowheg",
+											"hdamp_down_ext0_TTbarPowheg",
+											"hdamp_down_ext1_TTbarPowheg",
+											"hdamp_up_ext0_TTbarPowheg",
+											"hdamp_up_ext1_TTbarPowheg",
 											"TestAll",
 											"Test",
                                                                                         "Gencut_TTGamma_Semilept_T",

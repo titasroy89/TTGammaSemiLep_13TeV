@@ -125,7 +125,7 @@ makeAnalysisNtuple::makeAnalysisNtuple(int ac, char** av)
 	bool skipOverlap = false;
 	applypdfweight = false;
 	applyqsquare  = false;
-	if( sampleType == "TTbarPowheg" || sampleType=="isr_up_TTbarPowheg" || sampleType=="fsr_up_TTbarPowheg"|| sampleType=="isr_down_TTbarPowheg"|| sampleType=="fsr_down_TTbarPowheg"|| sampleType == "TTbarPowheg1" || sampleType == "TTbarPowheg2" || sampleType == "TTbarPowheg3" || sampleType == "TTbarPowheg4" || sampleType == "TTbarMCatNLO" || sampleType == "TTbarMadgraph_SingleLeptFromT" || sampleType == "TTbarMadgraph_SingleLeptFromTbar" || sampleType == "TTbarMadgraph_Dilepton" || sampleType == "TTbarMadgraph" || sampleType == "GluonMoveCRTune_erdON_TTbarPowheg" || sampleType == "GluonMoveCRTune_TTbarPowheg" || sampleType == "QCDbasedCRTune_erdON_TTbarPowheg" || sampleType == "TuneCUETP8M2T4_erdON_TTbarPowheg" || sampleType == "TuneCUETP8M2T4down_TTbarPowheg" || sampleType == "TuneCUETP8M2T4up_TTbarPowheg" || sampleType == "hdampDOWN_TTbarPowheg" || sampleType == "hdampUP_TTbarPowheg" ) doOverlapRemoval = true;
+	if( sampleType == "TTbarPowheg" || sampleType == "TTbarPowhegMark" || sampleType=="isr_up_TTbarPowheg" || sampleType=="fsr_up_TTbarPowheg"|| sampleType=="isr_down_TTbarPowheg"|| sampleType=="fsr_down_TTbarPowheg"|| sampleType == "TTbarPowheg1" || sampleType == "TTbarPowheg2" || sampleType == "TTbarPowheg3" || sampleType == "TTbarPowheg4" || sampleType == "TTbarMCatNLO" || sampleType == "TTbarMadgraph_SingleLeptFromT" || sampleType == "TTbarMadgraph_SingleLeptFromTbar" || sampleType == "TTbarMadgraph_Dilepton" || sampleType == "TTbarMadgraph" || sampleType == "GluonMoveCRTune_erdON_up_TTbarPowheg" || sampleType == "GluonMoveCRTune_TTbarPowheg" || sampleType == "QCDbasedCRTune_erdON_up_ext0_TTbarPowheg" || sampleType == "QCDbasedCRTune_erdON_up_ext1_TTbarPowheg" || sampleType == "TuneCUETP8M2T4_erdON_up_ext0_TTbarPowheg"||sampleType == "TuneCUETP8M2T4_erdON_up_ext1_TTbarPowheg" || sampleType == "Tune_down_ext0_TTbarPowheg"|| sampleType == "Tune_down_ext1_TTbarPowheg" || sampleType == "Tune_up_ext0_TTbarPowheg"|| sampleType == "Tune_up_ext1_TTbarPowheg" || sampleType == "hdamp_down_ext0_TTbarPowheg"||sampleType == "hdamp_down_ext1_TTbarPowheg" || sampleType == "hdamp_up_ext0_TTbarPowheg"||sampleType == "hdamp_up_ext1_TTbarPowheg" ) doOverlapRemoval = true;
 
 	if( sampleType == "W1jets" || sampleType == "W2jets" ||  sampleType == "W3jets" || sampleType == "W4jets" || sampleType=="DYjetsM10to50" || sampleType=="DYjetsM50" || sampleType=="DYjetsM10to50_MLM" || sampleType=="DYjetsM50_MLM") doOverlapRemoval_WZ = true;
 
@@ -1380,7 +1380,7 @@ double makeAnalysisNtuple::minDr(double myEta, double myPhi, std::vector<int> In
 #endif
 
 int main(int ac, char** av){
-  if(ac != 4){
+  if(ac < 4){
     std::cout << "usage: ./makeAnalysisNtuple sampleName outputFileDir inputFile[s]" << std::endl;
     return -1;
   }
